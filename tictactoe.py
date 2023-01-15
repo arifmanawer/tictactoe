@@ -14,6 +14,7 @@ else:
 board = []
 for row in range(3):
     board.append([""] * 3)
+
 for row in range(3):
     print(board[row])
 
@@ -70,3 +71,57 @@ def checkVertialWin():
             return True
 
     return False
+
+
+def checkDiagonal(row, column, increment):
+    mark = board[row][column]
+    if board[row][column] == "":
+        return False
+
+    currentMatch = 1
+    for i in range(2):
+        row += increment
+        column += increment
+        if board[row][column] == mark:
+            currentMatch += 1
+    if currentMatch == 3:
+        return True
+    return False
+
+
+def checkDiagonalWin():
+    if checkDiagonal(0, 0, 1) or checkDiagonal(0, 2, -1) == True:
+        return True
+    else:
+        return False
+
+
+def checkForWinner():
+    return checkVertialWin() or checkDiagonalWin() or checkHorizontalWin
+
+
+def isBoardFull():
+    for row in range(3):
+        for column in range(3):
+            if board[row][column] == "":
+                return False
+    return True
+
+
+def ticTacToe():
+    while True:
+        for mark in [player1Mark, player2Mark]:
+            playerMoves(mark)
+            for row in range(3):
+                print(board[row])
+
+            if checkForWinner():
+                print(mark, " wins!")
+                return
+
+            if isBoardFull():
+                print("Game over! No one won.")
+                return
+
+
+ticTacToe()
